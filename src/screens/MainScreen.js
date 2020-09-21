@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import { DATA } from "../data";
+import { useDispatch, useSelector } from "react-redux";
 import { AppHeaderIcon } from "../components/AppHeaderIcon";
 import { PostList } from "../components/PostList";
+import { loadPosts } from "../store/action/postAction";
 
 export const MainScreen = (props) => {
   const openPostHandler = ({ post }) => {
@@ -13,12 +14,20 @@ export const MainScreen = (props) => {
     });
   };
 
-  return <PostList data={DATA} onOpen={openPostHandler} />;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loadPosts());
+  }, [dispatch]);
+
+  const allPosts = useSelector((state) => state.post.allPosts);
+
+  return <PostList data={allPosts} onOpen={openPostHandler} />;
 };
 
 MainScreen.navigationOptions = ({ navigation }) => ({
   headerTitle: "My blog",
-  headerRight: (
+  headerRight: () => (
     <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
       <Item
         title="Take photo"
@@ -27,7 +36,7 @@ MainScreen.navigationOptions = ({ navigation }) => ({
       />
     </HeaderButtons>
   ),
-  headerLeft: (
+  headerLeft: () => (
     <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
       <Item
         title="Toogle Drawer"
