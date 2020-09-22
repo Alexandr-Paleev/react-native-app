@@ -1,3 +1,4 @@
+import { FontDisplay } from "expo-font";
 import * as Font from "expo-font";
 import { DB } from "./db";
 

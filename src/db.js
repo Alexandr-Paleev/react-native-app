@@ -1,6 +1,7 @@
 import * as SQLite from "expo-sqlite";
 
 const db = SQLite.openDatabase("post.db");
+const _ = null;
 
 export class DB {
   static init() {
@@ -22,8 +23,21 @@ export class DB {
         tx.executeSql(
           "SELECT * FROM posts",
           [],
-          (_, (result) => resolve(result.rows._array)),
-          (_, error) => rejact(error)
+          (_, result) => resolve(result.rows._array),
+          (_, error) => reject(error)
+        );
+      });
+    });
+  }
+
+  static createPost({ text, date, booked, img }) {
+    return new Promise((resolve, reject) => {
+      db.transaction((tx) => {
+        tx.executeSql(
+          `INSERT INTO posts (text, date, booked, img) VALUES (?, ?, ?, ?)`,
+          [text, date, booked, img],
+          (_, result) => resolve(result.insertId),
+          (_, error) => reject(error)
         );
       });
     });
