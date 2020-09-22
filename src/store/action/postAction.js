@@ -1,10 +1,14 @@
+import { DB } from "../../db";
 import { ADD_POST, LOAD_POSTS, REMOVE_POST, TOGGLE_BOOKED } from "../types";
 // import { DATA } from "../../data";
 
 export const loadPosts = () => {
-  return {
-    type: LOAD_POSTS,
-    payload: [],
+  return async function dispatch() {
+    const posts = await DB.getPosts();
+    dispatch({
+      type: LOAD_POSTS,
+      payload: posts,
+    });
   };
 };
 
