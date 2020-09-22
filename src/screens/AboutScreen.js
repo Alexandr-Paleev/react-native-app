@@ -16,7 +16,7 @@ export const AboutScreen = ({}) => {
 
 AboutScreen.navigationOptions = ({ navigation }) => ({
   headerTitle: "About app",
-  headerLeft: (
+  headerLeft: () => (
     <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
       <Item
         title="Toogle Drawer"
